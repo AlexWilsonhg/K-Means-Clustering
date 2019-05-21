@@ -6,50 +6,51 @@ KMeans::KMeans(std::vector<Vec2::Point> _dataset, int numCentroids)
 {
 	for (int i = 0; i < numCentroids && i < _dataset.size(); i++)
 	{
-		Centroid a{_dataset[rand() % _dataset.size()]};
-		centroids.push_back(a);
+		Cluster a{_dataset[rand() % _dataset.size()]};
+		clusters.push_back(a);
 	}
 	dataset = _dataset;
 }
 
 void KMeans::Update()
 {
-	ResetCentroidAssignments();
-	AssignDataToCentroids();
-	PruneUnusedCentroids();
-	UpdateCentroidLocations();
+	ResetClusterAssignments();
+	AssignDataToClusters();
+	PruneUnusedClusters();
+	UpdateClusterCentroids();
 }
 
-void KMeans::AssignDataToCentroids()
+void KMeans::AssignDataToClusters()
 {
 	for (auto & p : dataset)
 	{
 		float minDistance = 99999999.0f;
-		Centroid * closestCentroid = nullptr;
-		for(auto & c : centroids)
+		Cluster * closestCluster = nullptr;
+		for(auto & c : clusters)
 		{
-			float dist = Vec2::SquaredDistance(p, c.point);
+			float dist = Vec2::SquaredDistance(p, c.centroid);
 			if (dist < minDistance)
 			{
 				minDistance = dist;
-				closestCentroid = &c;
+				closestCluster = &c;
 			}
 		}
-		closestCentroid->datapoints.push_back(p);
+		closestCluster->datapoints.push_back(p); // TODO: This is a bottleneck, maybe try turning this into an array, 
+												  //       and just change numerical values instead of creating/deleting.										 
 	}	
 }
 
-void KMeans::ResetCentroidAssignments()
+void KMeans::ResetClusterAssignments()
 {
-	for (auto & c : centroids)
+	for (auto & c : clusters)
 	{
 		c.datapoints.clear();
 	}
 }
 
-void KMeans::UpdateCentroidLocations()
+void KMeans::UpdateClusterCentroids()
 {
-	for (auto & c : centroids)
+	for (auto & c : clusters)
 	{
 		float x = 0.0f;
 		float y = 0.0f;
@@ -60,12 +61,12 @@ void KMeans::UpdateCentroidLocations()
 		}
 		x /= c.datapoints.size();
 		y /= c.datapoints.size();
-		c.point.x = x;
-		c.point.y = y;
+		c.centroid.x = x;
+		c.centroid.y = y;
 	}
 }
 
-void KMeans::PruneUnusedCentroids()
+void KMeans::PruneUnusedClusters()
 {
 	// Delete centroids with 0 datapoints.
 }

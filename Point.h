@@ -1,7 +1,6 @@
 #pragma once
 namespace Vec2
 {
-
 	struct Point
 	{
 		float x;
@@ -14,5 +13,4 @@ namespace Vec2
 		float dY = a.y - b.y;
 		return ((dX*dX) + (dY*dY));
 	}
-
 }

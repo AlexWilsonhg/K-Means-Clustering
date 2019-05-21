@@ -8,9 +8,9 @@ public:
 
 	void Update();
 
-	std::vector<Centroid> GetCentroids()
+	std::vector<Cluster> GetClusters()
 	{
-		return centroids;
+		return clusters;
 	}
 
 	std::vector<Vec2::Point> GetDataset()
@@ -19,13 +19,13 @@ public:
 	}
 
 private:
-	void AssignDataToCentroids();
-	void ResetCentroidAssignments();
-	void UpdateCentroidLocations();
-	void PruneUnusedCentroids();
+	void AssignDataToClusters();
+	void ResetClusterAssignments();
+	void UpdateClusterCentroids();
+	void PruneUnusedClusters();
 
 private:
-	std::vector<Centroid> centroids;
+	std::vector<Cluster> clusters;
 	std::vector<Vec2::Point> dataset;
 };
 

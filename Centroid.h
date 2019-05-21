@@ -2,11 +2,11 @@
 #include "Point.h"
 #include <vector>
 
-struct Centroid
+struct Cluster
 {
-	Centroid(Vec2::Point _p) : point(_p) {}
+	Cluster(Vec2::Point _p) : centroid(_p) {}
 
-	Vec2::Point point;
+	Vec2::Point centroid;
 	std::vector<Vec2::Point> datapoints;
 };
 
